@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Walidator PESEL</title>
+    <style>
+        .container { max-width: 600px; margin: 0 auto; padding: 20px; }
+        .form-group { margin-bottom: 15px; }
+        .result { margin-top: 20px; padding: 15px; border-radius: 5px; }
+        .valid { background-color: #d4edda; color: #155724; }
+        .invalid { background-color: #f8d7da; color: #721c24; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Walidator numeru PESEL</h1>
+
+        <form method="post">
+            {% csrf_token %}
+            <div class="form-group">
+                {{ form.pesel.label_tag }}
+                {{ form.pesel }}
+                {{ form.pesel.errors }}
+            </div>
+            <button type="submit">Sprawdź</button>
+        </form>
+
+        {% if pesel %}
+        <div class="result {% if is_valid %}valid{% else %}invalid{% endif %}">
+            <h3>Wynik walidacji dla {{ pesel }}:</h3>
+
+            {% if is_valid %}
+                <p>✔ Numer PESEL jest prawidłowy</p>
+                <p><strong>Data urodzenia:</strong> {{ birth_date }}</p>
+                <p><strong>Płeć:</strong> {{ gender }}</p>
+            {% else %}
+                <p>✖ Numer PESEL jest nieprawidłowy</p>
+                {% if error %}<p>{{ error }}</p>{% endif %}
+            {% endif %}
+        </div>
+        {% endif %}
+    </div>
+</body>
+</html>
